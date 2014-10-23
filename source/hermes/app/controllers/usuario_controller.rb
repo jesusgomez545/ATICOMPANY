@@ -5,16 +5,16 @@ before_filter :check_api_token
 
 @api Hermes 1.0
 
-@param email [String] correo electronico del usuario que ha 
-	enviado o recibido el paquete a listar
+@param email [String] correo electronico del usuario que ha enviado o recibido el paquete a listar.
 
-@return [Json] representacion en formato json de los paquetes 
-	encontrados
+@return [Json] representacion en formato json de los paquetes encontrados.
 
 @note 
-	Parametro "api-token" requerido en cabecera http
+	GET '/usuario/paquete/listar'
+@note 
+	Parametro 'api-token' requerido en cabecera HTTP
 
-@example Ejemplo de json de retorno
+@example Ejemplo de json en caso de retorno
 	{
 	    "err_mssg": "",
 	    "success_mssg": "OK",
@@ -29,6 +29,20 @@ before_filter :check_api_token
 	                "profundidad": 10,
 	                "descripcion": "Teclado",
 	                "numero_guia": "1acae99bed11b1424527f4c930907fc498273739",
+	                "agencia_paquete": {
+						"id": 8,
+						"fecha_arribo": "2014-09-26T21:29:39.152Z",
+						"tipo_estado": "R",
+						"paquete": { Recursivo },
+						"agencia": {
+							"id": 15,
+							"nombre": "Hermes CCS",
+							"ubicacion": "Caracas",
+							"latitud": "13554.1546",
+							"longitud": "5466487.425",
+							"empresa": "Hermes",
+						}
+                	},
 	                "emisor": {
 	                    "id": 13,
 	                    "nombre": "Administrador",
@@ -65,6 +79,20 @@ before_filter :check_api_token
 	                "profundidad": 3,
 	                "descripcion": "Test",
 	                "numero_guia": "57921cab6d7d1d1c848747a14336345573dc00fb",
+	                "agencia_paquete": {
+						"id": 8,
+						"fecha_arribo": "2014-09-26T21:29:39.152Z",
+						"tipo_estado": "R",
+						"paquete": { Recursivo },
+						"agencia": {
+							"id": 15,
+							"nombre": "Hermes CCS",
+							"ubicacion": "Caracas",
+							"latitud": "13554.1546",
+							"longitud": "5466487.425",
+							"empresa": "Hermes",
+						}
+	                },
 	                "emisor": {
 	                    "id": 14,
 	                    "nombre": "operador",
@@ -127,6 +155,75 @@ before_filter :check_api_token
 		end
 	end
 
+=begin
+
+@api Hermes 1.0
+
+@param numero_guia [Integer] numero de guia perteneciente al paquete  de una transaccion.
+
+@return [Json] representacion en formato json del paquete encontrado por numero de guia.
+
+@note 
+	GET '/usuario/paquete/buscar'
+
+@note 
+	Parametro 'api-token' requerido en cabecera HTTP.
+
+@example Ejemplo de json en caso de retorno
+	{
+	    "err_mssg": "",
+	    "success_mssg": "OK",
+	    "data": { 
+                "id": 17,
+                "ancho": 2,
+                "alto": 2,
+                "peso": 4,
+                "costo": 2.35,
+                "profundidad": 3,
+                "descripcion": "Test",
+                "numero_guia": "57921cab6d7d1d1c848747a14336345573dc00fb",
+                "agencia_paquete": {
+					"id": 8,
+					"fecha_arribo": "2014-09-26T21:29:39.152Z",
+					"tipo_estado": "R",
+					"paquete": { Recursivo },
+					"agencia": {
+						"id": 15,
+						"nombre": "Hermes CCS",
+						"ubicacion": "Caracas",
+						"latitud": "13554.1546",
+						"longitud": "5466487.425",
+						"empresa": "Hermes",
+					}
+                },
+                "emisor": {
+                    "id": 14,
+                    "nombre": "operador",
+                    "apellido": "Prueba",
+                    "correo_electronico": "o@m.com",
+                    "fecha_ultimo_acceso": "2014-09-26T21:29:39.060Z",
+                    "tipo_usuario": {
+                        "id": 2,
+                        "nombre": "Operador",
+                        "abreviacion": "O"
+                    }
+                },
+                "receptor": {
+                    "id": 13,
+                    "nombre": "Administrador",
+                    "apellido": "Prueba",
+                    "correo_electronico": "a@m.com",
+                    "fecha_ultimo_acceso": "2014-09-27T00:18:14.693Z",
+                    "tipo_usuario": {
+                        "id": 1,
+                        "nombre": "Administrador",
+                        "abreviacion": "A"
+                    }
+                }
+	    }
+	}
+
+=end
 	def buscar_paquete
 		begin
 			prms = params.permit(
@@ -155,6 +252,78 @@ before_filter :check_api_token
 		end
 	end
 
+=begin
+
+@api Hermes 1.0
+
+@param id [Integer] identificador del paquete que desea ver.
+
+@return [Json] representacion en formato json del paquete encontrado por id.
+
+@note
+	GET '/usuario/paquete/ver'
+
+@note 
+	Parametro 'api-token' requerido en cabecera HTTP.
+
+@example Ejemplo de json en caso de retorno
+	{
+	    "err_mssg": "",
+	    "success_mssg": "OK",
+	    "data": {
+		    "transaccion": { 
+		    		"id": 8,
+					"fecha_arribo": "2014-09-26T21:29:39.152Z",
+					"tipo_estado": "R",
+					"paquete": { 
+						"id": 17,
+		                "ancho": 2,
+		                "alto": 2,
+		                "peso": 4,
+		                "costo": 2.35,
+		                "profundidad": 3,
+		                "descripcion": "Test",
+		                "numero_guia": "57921cab6d7d1d1c848747a14336345573dc00fb",
+		                "agencia_paquete": { Recursivo
+		                },
+		                "emisor": {
+		                    "id": 14,
+		                    "nombre": "operador",
+		                    "apellido": "Prueba",
+		                    "correo_electronico": "o@m.com",
+		                    "fecha_ultimo_acceso": "2014-09-26T21:29:39.060Z",
+		                    "tipo_usuario": {
+		                        "id": 2,
+		                        "nombre": "Operador",
+		                        "abreviacion": "O"
+		                    }
+		                },
+		                "receptor": {
+		                    "id": 13,
+		                    "nombre": "Administrador",
+		                    "apellido": "Prueba",
+		                    "correo_electronico": "a@m.com",
+		                    "fecha_ultimo_acceso": "2014-09-27T00:18:14.693Z",
+		                    "tipo_usuario": {
+		                        "id": 1,
+		                        "nombre": "Administrador",
+		                        "abreviacion": "A"
+		                    }
+	                },
+					"agencia": {
+						"id": 15,
+						"nombre": "Hermes CCS",
+						"ubicacion": "Caracas",
+						"latitud": "13554.1546",
+						"longitud": "5466487.425",
+						"empresa": "Hermes",
+				   	}
+	                
+	        }
+		}	
+	}
+
+=end
 	def ver_paquete
 		begin
 			prms = params.permit(
@@ -188,6 +357,16 @@ before_filter :check_api_token
 		end
 	end
 
+=begin
+
+@api Hermes 1.0
+
+@return [Json] la representacion de un mensaje 403 en  caso de acceso no autorizado o no contener el parametro 'api-token' en la cabecera.
+
+@note
+	Este metodo es un filtro.
+
+=end
 	def check_api_token		
 		begin
 			if request.headers.key?("api-token")
