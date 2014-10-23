@@ -1,3 +1,5 @@
+# Controlador relativo al administrador.
+
 class AdministradorController < ApplicationController
 before_filter :check_api_token
 
